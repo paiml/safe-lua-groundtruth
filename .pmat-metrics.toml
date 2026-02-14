@@ -1,0 +1,17 @@
+# PMAT quality thresholds for safe-lua-groundtruth
+[thresholds]
+test_coverage = 95
+mutation_coverage = 80
+max_complexity = 15
+max_line_length = 120
+
+[project]
+language = "lua"
+framework = "busted"
+
+# busted.yml files are selene standard library definitions that require
+# literal YAML booleans — quoting breaks selene parsing.
+# id-token: write is standard GitHub OIDC for Pages deployment.
+[ignore]
+CB-950 = ["busted.yml", "spec/busted.yml", ".github/workflows/book.yml"]
+CB-954 = [".github/workflows/book.yml"]

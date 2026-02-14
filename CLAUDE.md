@@ -29,3 +29,21 @@ local log = require("safe.log")
 - 95% minimum test coverage enforced
 - Zero SATD (no TODO/FIXME/HACK/XXX in lib/ or spec/)
 - PMAT CB-600 compliance required on all lib/ modules
+
+## Code Search
+
+NEVER use grep/glob for code search. Use `pmat query` instead:
+
+```bash
+# Find functions by intent
+pmat query "validation" --limit 10
+
+# Find code with fault patterns (--faults)
+pmat query "error handling" --faults --exclude-tests
+
+# Find by quality grade
+pmat query "guard" --min-grade A
+
+# Regex search
+pmat query --regex "function M%." --limit 20
+```

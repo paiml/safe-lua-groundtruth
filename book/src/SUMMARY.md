@@ -27,3 +27,23 @@
 # Adversarial Testing
 
 - [Falsification Findings](falsification.md)
+
+---
+
+# Examples
+
+- [Examples Overview](examples/README.md)
+- [CLI Tool](examples/cli_tool.md)
+- [Performance Profiling](examples/profiling.md)
+- [Structured Logging](examples/logging.md)
+- [PMAT Compliance](examples/compliance.md)
+- [Coroutine Parallelization](examples/parallel.md)
+- [Shell Orchestration](examples/orchestrate.md)
+- [Mutation Testing](examples/mutate.md)
+- [OBS Studio Scripting](examples/obs_script.md)
+- [Media Pipeline](examples/media_pipeline.md)
+- [Config Loading](examples/config_loader.md)
+- [File I/O](examples/file_io.md)
+- [State Machine](examples/state_machine.md)
+- [Testing Patterns](examples/testing_patterns.md)
+- [String Processing](examples/string_processing.md)

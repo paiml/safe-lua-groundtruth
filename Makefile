@@ -35,6 +35,17 @@ examples:
 	$(LUA) examples/cli_tool.lua search "require" lib/safe/
 	$(LUA) examples/profiling.lua 100
 	$(LUA) examples/logging.lua
+	$(LUA) examples/compliance.lua
+	$(LUA) examples/parallel.lua
+	$(LUA) examples/orchestrate.lua
+	$(LUA) examples/mutate.lua
+	$(LUA) examples/obs_script.lua
+	$(LUA) examples/media_pipeline.lua
+	$(LUA) examples/config_loader.lua
+	$(LUA) examples/file_io.lua
+	$(LUA) examples/state_machine.lua
+	$(LUA) examples/testing_patterns.lua
+	$(LUA) examples/string_processing.lua
 
 reproduce: clean check coverage
 
