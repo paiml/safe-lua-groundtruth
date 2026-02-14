@@ -8,7 +8,9 @@ Every module follows these patterns:
 
 ### Local Caching
 
-Standard library functions are cached in local variables at module top. This is both a performance optimization (avoids global table lookups) and a safety measure (prevents monkey-patching from affecting module internals).
+Standard library functions are cached in local variables at module top. This is both
+a performance optimization (avoids global table lookups) and a safety measure (prevents
+monkey-patching from affecting module internals).
 
 ```lua
 local type = type

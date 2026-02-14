@@ -1,6 +1,8 @@
 # Structured Logging
 
-Demonstrates `safe.log` features: level gating, child loggers with context tags, custom output handlers (JSON format), and custom timestamp functions (monotonic elapsed time).
+Demonstrates `safe.log` features: level gating, child loggers with context tags,
+custom output handlers (JSON format),
+and custom timestamp functions (monotonic elapsed time).
 
 ## Key Patterns
 

@@ -43,7 +43,7 @@ end
 
 local function cmd_search(pattern, directory)
     -- Validate inputs with error accumulation
-    local c = validate.Checker.new()
+    local c = validate.Checker:new()
     c:check_string_not_empty(pattern, "pattern")
     c:check_string_not_empty(directory, "directory")
     if not c:ok() then
@@ -82,7 +82,8 @@ local function cmd_count(directory)
 
     -- Count lines in output
     local count = 0
-    for _ in tostring(output):gmatch("[^\n]+") do -- pmat:ignore CB-601
+    local output_str = tostring(output)
+    for _ in output_str:gmatch("[^\n]+") do
         count = count + 1
     end
     io.write(count .. " files\n")

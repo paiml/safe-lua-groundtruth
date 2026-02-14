@@ -108,7 +108,7 @@ end
 --- @param new_word string replacement
 --- @return string modified text, number count
 local function replace_word(text, old_word, new_word)
-    local c = validate.Checker.new()
+    local c = validate.Checker:new()
     c:check_string_not_empty(text, "text")
     c:check_string_not_empty(old_word, "old_word")
     c:check_string_not_empty(new_word, "new_word")

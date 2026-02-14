@@ -11,6 +11,7 @@ local setmetatable = setmetatable
 local rawset = rawset
 local pairs = pairs
 local tostring = tostring
+local string_format = string.format
 
 --- Nil-safe chained table access. Returns nil at first miss.
 --- @param tbl table|nil
@@ -34,8 +35,7 @@ end
 --- @param level number|nil stack level for error (default 2)
 function M.assert_type(value, expected, name, level)
     if type(value) ~= expected then
-        -- pmat:ignore CB-601
-        local msg = ("expected %s to be %s, got %s"):format(tostring(name), expected, type(value))
+        local msg = string_format("expected %s to be %s, got %s", tostring(name), expected, type(value))
         error(msg, (level or 2))
     end
 end
@@ -46,7 +46,7 @@ end
 --- @param level number|nil stack level for error (default 2)
 function M.assert_not_nil(value, name, level)
     if value == nil then
-        error(("expected %s to be non-nil"):format(tostring(name)), (level or 2)) -- pmat:ignore CB-601
+        error(string_format("expected %s to be non-nil", tostring(name)), (level or 2))
     end
 end
 
@@ -58,7 +58,7 @@ function M.freeze(tbl)
     setmetatable(proxy, {
         __index = tbl,
         __newindex = function(_, key, _value)
-            error(("attempt to modify frozen table key: %s"):format(tostring(key)), 2) -- pmat:ignore CB-601
+            error(string_format("attempt to modify frozen table key: %s", tostring(key)), 2)
         end,
     })
     return proxy
@@ -77,13 +77,13 @@ function M.protect_globals(env)
     setmetatable(env, {
         __newindex = function(t, key, value)
             if not declared[key] then
-                error(("assignment to undeclared global: %s"):format(tostring(key)), 2) -- pmat:ignore CB-601
+                error(string_format("assignment to undeclared global: %s", tostring(key)), 2)
             end
             rawset(t, key, value)
         end,
         __index = function(_, key)
             if not declared[key] then
-                error(("access to undeclared global: %s"):format(tostring(key)), 2) -- pmat:ignore CB-601
+                error(string_format("access to undeclared global: %s", tostring(key)), 2)
             end
             return nil
         end,

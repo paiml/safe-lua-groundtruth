@@ -157,10 +157,15 @@ local function main(_args)
 
     -- Freeze config to prevent accidental modification
     local frozen = guard.freeze(config)
-    local mutate_ok = pcall(function() -- pmat:ignore CB-602
+    local mutate_ok = pcall(function()
         frozen.project_name = "oops"
     end)
-    io.write(string_format("  frozen:       %s\n", mutate_ok and "MUTABLE (bad)" or "immutable (good)"))
+    if mutate_ok then
+        io.write("  frozen:       MUTABLE (bad)\n")
+    end
+    if not mutate_ok then
+        io.write("  frozen:       immutable (good)\n")
+    end
 
     -- 2. Config with missing required fields
     io.write("\n2. Missing Required Fields\n")

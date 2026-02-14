@@ -2,9 +2,13 @@
 
 # Introduction
 
-**safe-lua-groundtruth** is a gold-standard safe Lua 5.1 library demonstrating defensive programming patterns. It serves as a reference implementation verified by PMAT CB-600 compliance checks.
+**safe-lua-groundtruth** is a gold-standard safe Lua 5.1 library demonstrating defensive
+programming patterns. It serves as a reference implementation verified by PMAT CB-600
+compliance checks.
 
-The library contains six modules covering the most common sources of Lua defects: nil-unsafe access, unvalidated input, shell injection, string concatenation in loops, implicit globals, and colon/dot confusion.
+The library contains six modules covering the most common sources of Lua defects:
+nil-unsafe access, unvalidated input, shell injection, string concatenation in loops,
+implicit globals, and colon/dot confusion.
 
 ## Quick Start
 

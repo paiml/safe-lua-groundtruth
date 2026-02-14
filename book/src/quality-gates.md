@@ -18,7 +18,8 @@ Configuration: `.luacheckrc` (project root).
 
 ### selene
 
-Additional static analysis with different heuristics. Runs on production code and test code separately (different standard library configs).
+Additional static analysis with different heuristics. Runs on production code and test
+code separately (different standard library configs).
 
 ```bash
 selene lib/
@@ -71,7 +72,8 @@ luacov
 lua5.1 tools/check_coverage.lua 95
 ```
 
-The `tools/check_coverage.lua` script parses the luacov report and enforces the minimum percentage per file. Any file below threshold fails the build.
+The `tools/check_coverage.lua` script parses the luacov report and enforces the
+minimum percentage per file. Any file below threshold fails the build.
 
 Coverage tool: **luacov** (not tarpaulin — Lua-native coverage).
 

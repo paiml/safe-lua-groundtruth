@@ -1,6 +1,9 @@
 # Testing Patterns
 
-Demonstrates mock factories, spy functions, dependency injection, and output capture — all patterns used extensively in resolve-pipeline's test suite. Shows how to test code that depends on shell execution, external APIs, and I/O without actually running those operations.
+Demonstrates mock factories, spy functions, dependency injection, and output capture.
+All patterns used extensively in resolve-pipeline's test suite.
+Shows how to test code that depends on shell execution, external APIs,
+and I/O without actually running those operations.
 
 ## Key Patterns
 

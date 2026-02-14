@@ -1,6 +1,9 @@
 # String Processing
 
-String pattern matching and transformation patterns from resolve-pipeline. Demonstrates `gmatch` line iteration, `gsub` with callbacks for SRT timestamp offsetting, Lua pattern escaping, frontier patterns for word boundaries, Levenshtein distance, and safe string building.
+String pattern matching and transformation patterns from resolve-pipeline.
+Demonstrates `gmatch` line iteration, `gsub` with callbacks for SRT timestamp offsetting,
+Lua pattern escaping, frontier patterns for word boundaries,
+Levenshtein distance, and safe string building.
 
 ## Key Patterns
 

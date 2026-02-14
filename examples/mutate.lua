@@ -184,7 +184,7 @@ local function main(_args)
     -- Generate and test mutants
     local mutants = generate_mutants()
 
-    local c = validate.Checker.new()
+    local c = validate.Checker:new()
     c:check_type(mutants, "table", "mutants")
     c:assert()
 

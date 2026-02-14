@@ -1,6 +1,7 @@
 # safe.perf
 
-Performance patterns demonstrating Lua 5.1 best practices. Includes both gold-standard patterns and intentional anti-patterns for benchmarking comparison.
+Performance patterns demonstrating Lua 5.1 best practices. Includes both gold-standard
+patterns and intentional anti-patterns for benchmarking comparison.
 
 ```lua
 local perf = require("safe.perf")
@@ -105,7 +106,8 @@ return M
 
 ### `perf.concat_safe(parts)` — Gold Standard
 
-Accumulates strings in a table and joins with `table.concat`. This is O(n) total allocation instead of O(n^2) from repeated concatenation.
+Accumulates strings in a table and joins with `table.concat`. This is O(n) total
+allocation instead of O(n^2) from repeated concatenation.
 
 ```lua
 local parts = {}
@@ -117,7 +119,8 @@ local result = perf.concat_safe(parts)
 
 ### `perf.concat_unsafe(parts)` — Anti-Pattern
 
-String concatenation in a loop using `..`. Each concatenation creates a new string, leading to O(n^2) allocation. **Included only for benchmarking comparison** (CB-605).
+String concatenation in a loop using `..`. Each concatenation creates a new string,
+leading to O(n^2) allocation. **Included only for benchmarking comparison** (CB-605).
 
 ### `perf.build_string(n, char)`
 
@@ -167,7 +170,11 @@ See the [Benchmarks](../benchmarks.md) chapter for quantitative results. Key fin
 
 ## Known Limitations
 
-- **`concat_safe` input constraints**: `table.concat` requires all elements to be strings or numbers. It errors on `nil`, `boolean`, or `table` elements.
-- **`concat_unsafe` with holes**: Arrays with nil holes have undefined `#` length, leading to unpredictable behavior.
-- **`numeric_for_sum` with nil holes**: If `#tbl` reports a length that includes a nil slot, `sum + nil` errors.
-- **`format_many` type mismatch**: If the format specifier doesn't match the item type (e.g., `%d` with a string), `string.format` throws.
+- **`concat_safe` input constraints**: `table.concat` requires all elements to be
+  strings or numbers. It errors on `nil`, `boolean`, or `table` elements.
+- **`concat_unsafe` with holes**: Arrays with nil holes have undefined `#` length,
+  leading to unpredictable behavior.
+- **`numeric_for_sum` with nil holes**: If `#tbl` reports a length that includes a
+  nil slot, `sum + nil` errors.
+- **`format_many` type mismatch**: If the format specifier doesn't match the item type
+  (e.g., `%d` with a string), `string.format` throws.

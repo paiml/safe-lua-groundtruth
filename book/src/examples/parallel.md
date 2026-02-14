@@ -1,6 +1,8 @@
 # Coroutine Parallelization
 
-Cooperative coroutine-based task runner. Dispatches multiple tasks as coroutines, round-robins execution, and collects results. Demonstrates Lua 5.1 coroutine patterns with safe-lua validation and logging.
+Cooperative coroutine-based task runner.
+Dispatches multiple tasks as coroutines, round-robins execution, and collects results.
+Demonstrates Lua 5.1 coroutine patterns with safe-lua validation and logging.
 
 ## Key Patterns
 

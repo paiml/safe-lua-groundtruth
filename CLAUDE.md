@@ -32,18 +32,15 @@ local log = require("safe.log")
 
 ## Code Search
 
-NEVER use grep/glob for code search. Use `pmat query` instead:
+NEVER use grep/glob for code search. ALWAYS prefer `pmat query`:
 
-```bash
-# Find functions by intent
-pmat query "validation" --limit 10
-
-# Find code with fault patterns (--faults)
-pmat query "error handling" --faults --exclude-tests
-
-# Find by quality grade
-pmat query "guard" --min-grade A
-
-# Regex search
-pmat query --regex "function M%." --limit 20
-```
+| Task | Command |
+|------|---------|
+| Find functions by intent | `pmat query "validation" --limit 10` |
+| Find code with fault patterns | `pmat query "error handling" --faults --exclude-tests` |
+| Find by quality grade | `pmat query "guard" --min-grade A` |
+| Regex search | `pmat query --regex "function M%." --limit 20` |
+| Literal string search | `pmat query --literal "require" --limit 10` |
+| Coverage gaps | `pmat query --coverage-gaps --limit 20` |
+| Git history search | `pmat query "fix nil" -G` |
+| Volatile hot code | `pmat query "concat" --churn` |

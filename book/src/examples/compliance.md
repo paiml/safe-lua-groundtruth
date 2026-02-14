@@ -1,6 +1,7 @@
 # PMAT Compliance
 
-Walks through all 8 CB checks (CB-600 through CB-607) in a single script, demonstrating each defensive pattern and printing a pass/fail matrix.
+Walks through all 8 CB checks (CB-600 through CB-607) in a single script,
+demonstrating each defensive pattern and printing a pass/fail matrix.
 
 ## CB Checks Demonstrated
 

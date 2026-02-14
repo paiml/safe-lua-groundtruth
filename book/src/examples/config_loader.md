@@ -1,6 +1,9 @@
 # Config Loading
 
-Demonstrates config loading and schema validation patterns used in resolve-pipeline. Shows `dofile`-based config loading, `validate.schema()` for structural validation, defaults via `or`, nested config sections, and freezing validated configs to prevent accidental modification.
+Demonstrates config loading and schema validation patterns used in resolve-pipeline.
+Shows `dofile`-based config loading, `validate.schema()` for structural validation,
+defaults via `or`, nested config sections, and freezing validated configs
+to prevent accidental modification.
 
 ## Key Patterns
 

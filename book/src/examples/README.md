@@ -1,6 +1,8 @@
 # Examples Overview
 
-This section contains runnable examples demonstrating safe-lua patterns in real-world scenarios. Each example is a standalone Lua script in the `examples/` directory.
+This section contains runnable examples demonstrating safe-lua patterns
+in real-world scenarios.
+Each example is a standalone Lua script in the `examples/` directory.
 
 ## Running Examples
 

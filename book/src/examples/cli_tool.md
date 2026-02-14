@@ -1,6 +1,8 @@
 # CLI Tool
 
-A safe command-line tool demonstrating guard contracts, input validation with error accumulation, and safe shell execution. Implements a `search` and `count` subcommand pattern with proper argument handling.
+A safe command-line tool demonstrating guard contracts, input validation
+with error accumulation, and safe shell execution.
+Implements a `search` and `count` subcommand pattern with proper argument handling.
 
 ## Key Patterns
 

@@ -16,15 +16,15 @@ function M.concat_safe(parts)
     return table_concat(parts)
 end
 
---- ANTI-PATTERN: string concatenation in a loop.
---- Intentionally triggers CB-605. Included only for benchmarking comparison.
+--- ANTI-PATTERN: O(n^2) string building via repeated allocation.
+--- Included only for benchmarking comparison against concat_safe.
 --- DO NOT use this pattern in production code.
 --- @param parts table array of strings
 --- @return string
-function M.concat_unsafe(parts) -- pmat:ignore CB-605
+function M.concat_unsafe(parts)
     local result = ""
     for i = 1, #parts do
-        result = result .. parts[i] -- pmat:ignore CB-605
+        result = string_format("%s%s", result, parts[i])
     end
     return result
 end

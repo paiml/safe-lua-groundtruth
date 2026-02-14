@@ -206,7 +206,9 @@ When no varargs are passed, the format string is used as-is (no `string.format` 
 
 ### `log.with_context(ctx)`
 
-Create a child logger with a preset context. The child temporarily sets the context for each message and restores the parent context afterward — even if the output function throws.
+Create a child logger with a preset context. The child temporarily sets
+the context for each message and restores the parent context afterward
+— even if the output function throws.
 
 ```lua
 local db_log = log.with_context("database")
@@ -238,5 +240,7 @@ Since Lua caches modules in `package.loaded`, all `require("safe.log")` calls re
 ## Known Limitations
 
 - **Shared global state**: Level, context, output function, and timestamp function are module-level upvalues. Multiple `require` calls share the same state.
-- **Format string errors propagate**: If the format string expects more arguments than provided, `string.format` throws — this propagates through the log call.
+- **Format string errors propagate**: If the format string expects more
+  arguments than provided, `string.format` throws — this propagates
+  through the log call.
 - **Child context is pcall-protected**: The `with_context` child logger uses `pcall` to ensure context is restored even when the output function errors. The error is re-raised after cleanup.

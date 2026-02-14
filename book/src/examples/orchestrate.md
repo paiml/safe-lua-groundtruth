@@ -1,6 +1,8 @@
 # Shell Orchestration
 
-Multi-stage pipeline runner, like a mini CI system. Defines an ordered list of steps, executes each via `shell.exec`, logs progress, halts on first failure, and reports a summary.
+Multi-stage pipeline runner, like a mini CI system.
+Defines an ordered list of steps, executes each via `shell.exec`,
+logs progress, halts on first failure, and reports a summary.
 
 ## Key Patterns
 

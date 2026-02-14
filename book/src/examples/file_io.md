@@ -1,6 +1,8 @@
 # File I/O
 
-Safe file I/O patterns used in resolve-pipeline. Demonstrates reading, writing, existence checks, file size via `seek("end")`, RAII-like cleanup with `with_file`, and `test_helpers.with_temp_file`.
+Safe file I/O patterns used in resolve-pipeline.
+Demonstrates reading, writing, existence checks, file size via `seek("end")`,
+RAII-like cleanup with `with_file`, and `test_helpers.with_temp_file`.
 
 ## Key Patterns
 

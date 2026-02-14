@@ -150,11 +150,19 @@ return M
 
 The shell module enforces safety at two levels:
 
-1. **Program name validation**: `validate_program` rejects any program name containing shell metacharacters (`; & | \` $ ( ) { } [ ] < > ! # ~ " ' ` and whitespace). This prevents command injection via the program name.
+1. **Program name validation**: `validate_program` rejects any program
+   name containing shell metacharacters
+   (``; & | ` $ ( ) { } [ ] < > ! # ~ " '`` and whitespace).
+   This prevents command injection via the program name.
 
-2. **Argument escaping**: All arguments are wrapped in single quotes with embedded single quotes properly escaped (`'` becomes `'\''`). This is the standard POSIX shell escaping technique.
+2. **Argument escaping**: All arguments are wrapped in single quotes
+   with embedded single quotes properly escaped (`'` becomes `'\''`).
+   This is the standard POSIX shell escaping technique.
 
-The combination means that `shell.exec("grep", {"-r", user_input, "/path"})` is safe even when `user_input` contains `; rm -rf /` — the dangerous content is safely single-quoted:
+The combination means that
+`shell.exec("grep", {"-r", user_input, "/path"})` is safe even when
+`user_input` contains `; rm -rf /` — the dangerous content is safely
+single-quoted:
 
 ```lua
 shell.build_command("echo", { "; rm -rf /" })

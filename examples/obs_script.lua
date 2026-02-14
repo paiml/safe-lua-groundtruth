@@ -27,8 +27,6 @@ log.set_context("obs")
 -- ----------------------------------------------------------------
 -- Stub OBS API (so this example runs without OBS)
 -- ----------------------------------------------------------------
-local obs_stub = {}
-
 local stub_sources = {
     { name = "Webcam", kind = "v4l2_input", active = true },
     { name = "Desktop Audio", kind = "pulse_output_capture", active = true },
@@ -40,60 +38,73 @@ local stub_scenes = {
     { name = "Intermission", sources = { "Text Overlay" } },
 }
 
-function obs_stub.obs_get_source_by_name(name)
-    guard.assert_type(name, "string", "source_name")
-    for i = 1, #stub_sources do
-        if stub_sources[i].name == name then
-            return { _data = stub_sources[i] }
+local function create_obs_stub()
+    local function obs_get_source_by_name(name)
+        guard.assert_type(name, "string", "source_name")
+        for i = 1, #stub_sources do
+            if stub_sources[i].name == name then
+                return { _data = stub_sources[i] }
+            end
         end
+        return nil
     end
-    return nil
-end
 
-function obs_stub.obs_source_get_name(source)
-    guard.assert_not_nil(source, "source")
-    return source._data.name
-end
-
-function obs_stub.obs_source_get_type(source)
-    guard.assert_not_nil(source, "source")
-    return source._data.kind
-end
-
-function obs_stub.obs_source_active(source)
-    guard.assert_not_nil(source, "source")
-    return source._data.active
-end
-
-function obs_stub.obs_source_release(_source)
-    -- no-op in stub
-end
-
-function obs_stub.obs_enum_scenes()
-    local scenes = {}
-    for i = 1, #stub_scenes do
-        scenes[i] = { _scene = stub_scenes[i] }
+    local function obs_source_get_name(source)
+        guard.assert_not_nil(source, "source")
+        return source._data.name
     end
-    return scenes
-end
 
-function obs_stub.obs_scene_get_name(scene)
-    guard.assert_not_nil(scene, "scene")
-    return scene._scene.name
-end
-
-function obs_stub.obs_scene_enum_items(scene)
-    guard.assert_not_nil(scene, "scene")
-    local items = {}
-    for i = 1, #scene._scene.sources do -- pmat:ignore CB-601
-        items[i] = { _source_name = scene._scene.sources[i] }
+    local function obs_source_get_type(source)
+        guard.assert_not_nil(source, "source")
+        return source._data.kind
     end
-    return items
-end
 
-function obs_stub.obs_sceneitem_get_source_name(item)
-    guard.assert_not_nil(item, "scene_item")
-    return item._source_name
+    local function obs_source_active(source)
+        guard.assert_not_nil(source, "source")
+        return source._data.active
+    end
+
+    local function obs_source_release(_source) end
+
+    local function obs_enum_scenes()
+        local scenes = {}
+        for i = 1, #stub_scenes do
+            scenes[i] = { _scene = stub_scenes[i] }
+        end
+        return scenes
+    end
+
+    local function obs_scene_get_name(scene)
+        guard.assert_not_nil(scene, "scene")
+        return scene._scene.name
+    end
+
+    local function obs_scene_enum_items(scene)
+        guard.assert_not_nil(scene, "scene")
+        local sources = scene._scene.sources
+        local items = {}
+        for i = 1, #sources do
+            items[i] = { _source_name = sources[i] }
+        end
+        return items
+    end
+
+    local function obs_sceneitem_get_source_name(item)
+        guard.assert_not_nil(item, "scene_item")
+        return item._source_name
+    end
+
+    return {
+        obs_get_source_by_name = obs_get_source_by_name,
+        obs_source_get_name = obs_source_get_name,
+        obs_source_get_type = obs_source_get_type,
+        obs_source_active = obs_source_active,
+        obs_source_release = obs_source_release,
+        obs_enum_scenes = obs_enum_scenes,
+        obs_scene_get_name = obs_scene_get_name,
+        obs_scene_enum_items = obs_scene_enum_items,
+        obs_sceneitem_get_source_name = obs_sceneitem_get_source_name,
+    }
 end
 
 -- ----------------------------------------------------------------
@@ -187,7 +198,7 @@ local function main(_args)
     io.write("OBS Studio Script Template\n")
     io.write(string_rep("=", 50) .. "\n\n")
 
-    local obs = obs_stub
+    local obs = create_obs_stub()
 
     -- 1. Audit sources
     io.write("Source Audit:\n")
@@ -232,10 +243,15 @@ local function main(_args)
     io.write(string_format("  Bad scene name:     %s\n", tostring(scene_err)))
 
     -- Nil contract
-    local nil_ok, _nil_err = pcall(function() -- pmat:ignore CB-602
+    local nil_ok, _nil_err = pcall(function()
         obs.obs_source_get_name(nil)
     end)
-    io.write(string_format("  Nil source guard:   %s\n", nil_ok and "no error" or "caught"))
+    if nil_ok then
+        io.write("  Nil source guard:   no error\n")
+    end
+    if not nil_ok then
+        io.write("  Nil source guard:   caught\n")
+    end
 
     io.write("\n")
     log.info("OBS script demo complete")

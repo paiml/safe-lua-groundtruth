@@ -1,6 +1,8 @@
 # Performance Profiling
 
-Compares safe versus unsafe Lua patterns using `safe.perf` and reports timing, speedup ratios, and memory allocation estimates. Demonstrates why the safe patterns exist by quantifying the performance difference.
+Compares safe versus unsafe Lua patterns using `safe.perf` and reports timing,
+speedup ratios, and memory allocation estimates.
+Demonstrates why the safe patterns exist by quantifying the performance difference.
 
 ## Key Patterns
 

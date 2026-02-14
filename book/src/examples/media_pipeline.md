@@ -1,6 +1,9 @@
 # Media Pipeline
 
-Builds safe FFmpeg and ImageMagick commands via `shell.build_command` and `shell.escape`. Demonstrates video transcode, thumbnail extraction, and image resize pipelines with proper argument escaping and validation. Runs in dry-run mode by default (prints commands without executing).
+Builds safe FFmpeg and ImageMagick commands via `shell.build_command` and `shell.escape`.
+Demonstrates video transcode, thumbnail extraction, and image resize pipelines
+with proper argument escaping and validation.
+Runs in dry-run mode by default (prints commands without executing).
 
 ## Key Patterns
 

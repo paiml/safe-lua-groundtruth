@@ -1,6 +1,9 @@
 # OBS Studio Scripting
 
-Reference template showing how to integrate safe-lua into an OBS Studio Lua script. Wraps the OBS API with guard contracts, validates scene/source names, and uses structured logging. Includes a stub OBS API so the example runs standalone.
+Reference template showing how to integrate safe-lua into an OBS Studio Lua script.
+Wraps the OBS API with guard contracts, validates scene/source names,
+and uses structured logging.
+Includes a stub OBS API so the example runs standalone.
 
 ## Key Patterns
 

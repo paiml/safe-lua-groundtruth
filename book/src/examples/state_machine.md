@@ -1,6 +1,9 @@
 # State Machine
 
-Phase/state machine pipeline with timing, directly modeled on resolve-pipeline's `phase_start`/`phase_pass`/`phase_fail` lifecycle. Demonstrates state accumulation, elapsed time measurement, halt-on-failure, and completeness checking.
+Phase/state machine pipeline with timing, directly modeled on resolve-pipeline's
+`phase_start`/`phase_pass`/`phase_fail` lifecycle.
+Demonstrates state accumulation, elapsed time measurement,
+halt-on-failure, and completeness checking.
 
 ## Key Patterns
 

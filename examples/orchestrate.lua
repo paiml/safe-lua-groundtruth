@@ -29,7 +29,7 @@ log.set_context("pipeline")
 --- @param args table|nil arguments
 --- @return table step
 local function step(name, program, args)
-    local c = validate.Checker.new()
+    local c = validate.Checker:new()
     c:check_string_not_empty(name, "name")
     c:check_string_not_empty(program, "program")
     c:assert()

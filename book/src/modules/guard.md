@@ -171,7 +171,8 @@ CONSTANTS.PI = 0         --> error: attempt to modify frozen table key: PI
 
 ### `guard.protect_globals(env)`
 
-Installs a metatable on `env` (default `_G`) that errors on access to or assignment of undeclared globals. All keys present at call time are considered "declared".
+Installs a metatable on `env` (default `_G`) that errors on access to or assignment
+of undeclared globals. All keys present at call time are considered "declared".
 
 ```lua
 guard.protect_globals(_G)
@@ -203,8 +204,10 @@ COLORS.PURPLE = true --> error: attempt to modify frozen table key: PURPLE
 
 These are documented behaviors discovered through [falsification testing](../falsification.md):
 
-- **Shallow freeze**: `freeze()` only protects the top-level table. Nested tables accessed through the proxy are mutable.
-- **No `pairs()` iteration in Lua 5.1**: Frozen proxies are empty tables with `__index`, so `pairs()` yields zero entries. Lua 5.1 does not support the `__pairs` metamethod.
+- **Shallow freeze**: `freeze()` only protects the top-level table. Nested tables
+  accessed through the proxy are mutable.
+- **No `pairs()` iteration in Lua 5.1**: Frozen proxies are empty tables with `__index`,
+  so `pairs()` yields zero entries. Lua 5.1 does not support the `__pairs` metamethod.
 - **`rawget` bypass**: `rawget(frozen, key)` returns nil (from the empty proxy), not the underlying value.
 - **`protect_globals` replaces metatables**: Any existing metatable on the environment is silently overwritten.
 - **Duplicate enum names**: `enum({"A", "B", "A"})` silently deduplicates (last write wins, same value).

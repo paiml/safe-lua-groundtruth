@@ -56,7 +56,7 @@ end
 --- @return boolean ok
 --- @return string|nil error
 local function write_file(path, content)
-    local c = validate.Checker.new()
+    local c = validate.Checker:new()
     c:check_string_not_empty(path, "path")
     c:check_type(content, "string", "content")
     if not c:ok() then

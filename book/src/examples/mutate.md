@@ -1,6 +1,8 @@
 # Mutation Testing
 
-A mutation testing harness that takes a pure function, generates arithmetic and boundary mutants, runs a test suite against each mutant, and reports killed/survived/score.
+A mutation testing harness that takes a pure function,
+generates arithmetic and boundary mutants,
+runs a test suite against each mutant, and reports killed/survived/score.
 
 ## Key Patterns
 

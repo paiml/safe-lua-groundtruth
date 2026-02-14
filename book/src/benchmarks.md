@@ -107,7 +107,9 @@ Tests at n=100, n=1000, and n=10000.
 - **`concat_safe`** uses `table.concat` — O(n) total allocation
 - **`concat_unsafe`** uses `result = result .. parts[i]` — O(n^2) total allocation
 
-At n=100, the difference is small. At n=10000, `concat_safe` is typically **10-100x faster** due to the quadratic cost of repeated string creation in `concat_unsafe`.
+At n=100, the difference is small. At n=10000, `concat_safe` is typically
+**10-100x faster** due to the quadratic cost of repeated string creation
+in `concat_unsafe`.
 
 ### Iteration: `numeric_for_sum` vs `ipairs_sum`
 
@@ -125,7 +127,8 @@ Tests at n=1000.
 - **`reuse_table`** clears and refills an existing table
 - **`new_table`** allocates a fresh table each iteration
 
-Both have similar raw speed, but `reuse_table` reduces GC pressure by avoiding repeated allocation and collection of short-lived tables.
+Both have similar raw speed, but `reuse_table` reduces GC pressure by avoiding
+repeated allocation and collection of short-lived tables.
 
 ## Interpreting Results
 
@@ -138,4 +141,5 @@ The harness outputs TSV with columns:
 | time_ms | Total wall time for 1000 iterations (ms) |
 | ops_per_sec | Operations per second |
 
-Results vary by hardware and Lua implementation. The relative ratios between safe and unsafe patterns are the meaningful signal, not absolute numbers.
+Results vary by hardware and Lua implementation. The relative ratios between safe
+and unsafe patterns are the meaningful signal, not absolute numbers.

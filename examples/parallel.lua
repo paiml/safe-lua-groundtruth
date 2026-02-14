@@ -48,7 +48,7 @@ local function scheduler(tasks)
     local coros = {}
     local names = {}
     for i = 1, #tasks do
-        local c = validate.Checker.new()
+        local c = validate.Checker:new()
         c:check_string_not_empty(tasks[i].name, "task.name")
         c:check_type(tasks[i].fn, "function", "task.fn")
         c:assert()

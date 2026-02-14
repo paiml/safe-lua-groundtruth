@@ -119,7 +119,8 @@ local function print_summary(state)
         else
             fail_count = fail_count + 1
         end
-        total_elapsed = total_elapsed + state.timings[i].elapsed -- pmat:ignore CB-601
+        local timing = state.timings[i]
+        total_elapsed = total_elapsed + timing.elapsed
     end
 
     io.write(
@@ -146,7 +147,7 @@ end
 -- ----------------------------------------------------------------
 
 local function phase_validate_config(config)
-    local c = validate.Checker.new()
+    local c = validate.Checker:new()
     c:check_string_not_empty(config.project_name, "project_name")
     c:check_type(config.frame_rate, "number", "frame_rate")
     c:check_range(config.frame_rate, 1, 120, "frame_rate")

@@ -55,7 +55,10 @@ end
 
 **Problem**: `os.execute` and `io.popen` allow arbitrary shell command execution. Raw string building enables injection.
 
-**Solution**: `shell.exec` and `shell.capture` enforce safety through argument arrays and escaping. The dangerous APIs are used only through validated, escaped command strings. Annotated with `pmat:ignore CB-603` to acknowledge intentional use.
+**Solution**: `shell.exec` and `shell.capture` enforce safety through
+argument arrays and escaping. The dangerous APIs are used only through
+validated, escaped command strings. Annotated with `pmat:ignore CB-603`
+to acknowledge intentional use.
 
 ```lua
 -- NEVER: os.execute("grep -r " .. user_input .. " /path")
@@ -113,6 +116,6 @@ return M
 validate.check_type(val, "string", "name")
 
 -- Colon (Checker only): method accumulates state in self
-local c = validate.Checker.new()
+local c = validate.Checker:new()
 c:check_type(val, "string", "name")
 ```

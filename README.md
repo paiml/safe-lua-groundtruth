@@ -2,7 +2,8 @@
 
 # safe-lua-groundtruth
 
-Gold-standard safe Lua 5.1 library demonstrating defensive programming patterns. Designed as a reference implementation verified by PMAT CB-600 compliance checks.
+Gold-standard safe Lua 5.1 library demonstrating defensive programming patterns.
+Designed as a reference implementation verified by PMAT CB-600 compliance checks.
 
 ## PMAT Project Score
 
@@ -18,7 +19,9 @@ Gold-standard safe Lua 5.1 library demonstrating defensive programming patterns.
 
 ## Documentation
 
-The full reference book is available at [https://paiml.github.io/safe-lua-groundtruth](https://paiml.github.io/safe-lua-groundtruth) (deployed via GitHub Pages on tag push).
+The full reference book is available at
+[https://paiml.github.io/safe-lua-groundtruth](https://paiml.github.io/safe-lua-groundtruth)
+(deployed via GitHub Pages on tag push).
 
 Build locally:
 
@@ -90,7 +93,7 @@ Non-throwing checks with error accumulation.
 local ok, err = validate.check_range(port, 1, 65535, "port")
 
 -- Accumulate multiple checks
-local c = validate.Checker.new()
+local c = validate.Checker:new()
 c:check_type(name, "string", "name")
  :check_range(age, 0, 150, "age")
  :check_one_of(role, {"admin", "user"}, "role")

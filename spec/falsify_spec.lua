@@ -269,7 +269,7 @@ describe("FALSIFY validate", function()
 
     describe("Checker:assert with custom level", function()
         it("accepts custom stack level", function()
-            local c = validate.Checker.new()
+            local c = validate.Checker:new()
             c:check_type(42, "string", "x")
             assert.has.errors(function()
                 c:assert(3)

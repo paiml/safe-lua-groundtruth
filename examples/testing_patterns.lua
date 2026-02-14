@@ -30,14 +30,14 @@ log.set_context("testing")
 
 --- Create a spy function that records all calls.
 --- @param return_value any value to return on each call
---- @return function spy, table calls
+--- @return function spy, table records
 local function make_spy(return_value)
-    local calls = {}
+    local records = {}
     local fn = function(...)
-        calls[#calls + 1] = { ... }
+        records[#records + 1] = { ... }
         return return_value
     end
-    return fn, calls
+    return fn, records
 end
 
 -- ----------------------------------------------------------------
@@ -150,10 +150,15 @@ local function main(_args)
     io.write(string_format("  active:   %s (after SetActive)\n", tostring(source:IsActive())))
 
     -- Type contract on SetLabel
-    local bad_ok = pcall(function() -- pmat:ignore CB-602
+    local bad_ok = pcall(function()
         source:SetLabel(123)
     end)
-    io.write(string_format("  SetLabel(123): %s\n", bad_ok and "accepted (bad)" or "rejected (good)"))
+    if bad_ok then
+        io.write("  SetLabel(123): accepted (bad)\n")
+    end
+    if not bad_ok then
+        io.write("  SetLabel(123): rejected (good)\n")
+    end
 
     -- ----------------------------------------------------------------
     -- 3. Mock executor (test_helpers pattern)

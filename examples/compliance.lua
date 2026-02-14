@@ -47,10 +47,12 @@ local function main(_args)
             -- Access declared var: should work
             guard.contract(env.declared_var == 42, "declared access must work")
             -- Attempt undeclared write: should error
-            local wrote_ok = pcall(function() -- pmat:ignore CB-602
+            local wrote_ok = pcall(function()
                 env.undeclared = 99
             end)
-            guard.contract(not wrote_ok, "undeclared write must be blocked")
+            if wrote_ok then
+                error("undeclared write must be blocked")
+            end
         end),
     }
 
@@ -70,12 +72,18 @@ local function main(_args)
     -- CB-602: pcall handling — correct error propagation
     results[#results + 1] = {
         run_check("CB-602", "pcall error handling", function()
-            local ok, err = pcall(function() -- pmat:ignore CB-602
+            local ok, err = pcall(function()
                 error("test error", 2)
             end)
-            guard.contract(not ok, "pcall must catch error")
-            guard.contract(type(err) == "string", "pcall must return error message")
-            guard.contract(err:find("test error") ~= nil, "error message must propagate")
+            if ok then
+                error("pcall must catch error")
+            end
+            if type(err) ~= "string" then
+                error("pcall must return error message")
+            end
+            if not err:find("test error") then
+                error("error message must propagate")
+            end
         end),
     }
 
@@ -140,7 +148,7 @@ local function main(_args)
             local ok_dot, _err = validate.check_type(42, "number", "n")
             guard.contract(ok_dot, "dot syntax must work for stateless")
             -- Colon syntax for stateful Checker
-            local c = validate.Checker.new()
+            local c = validate.Checker:new()
             c:check_type(42, "number", "n")
             c:check_string_not_empty("hello", "msg")
             guard.contract(c:ok(), "colon syntax must work for Checker")

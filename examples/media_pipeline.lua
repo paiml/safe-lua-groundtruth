@@ -30,7 +30,7 @@ log.set_context("media")
 --- @param name string parameter name
 --- @return boolean ok, string|nil error
 local function validate_path(path, name)
-    local c = validate.Checker.new()
+    local c = validate.Checker:new()
     c:check_string_not_empty(path, name)
     if not c:ok() then
         return false, table_concat(c:errors(), "; ")

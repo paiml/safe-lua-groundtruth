@@ -11,7 +11,5 @@ framework = "busted"
 
 # busted.yml files are selene standard library definitions that require
 # literal YAML booleans — quoting breaks selene parsing.
-# id-token: write is standard GitHub OIDC for Pages deployment.
 [ignore]
-CB-950 = ["busted.yml", "spec/busted.yml", ".github/workflows/book.yml"]
-CB-954 = [".github/workflows/book.yml"]
+CB-950 = ["busted.yml", "spec/busted.yml"]

@@ -193,7 +193,8 @@ local ok, output = shell.capture("echo", {"hello"})
 
 #### `helpers.capture_output(fn)`
 
-Temporarily replaces `io.write` to capture all output during `fn()`. Restores the original `io.write` even if `fn` throws:
+Temporarily replaces `io.write` to capture all output during `fn()`.
+Restores the original `io.write` even if `fn` throws:
 
 ```lua
 local output = helpers.capture_output(function()
@@ -257,9 +258,19 @@ Handles self-referencing and mutually-referencing cyclic structures without infi
 
 ## Known Limitations
 
-- **`capture_output` mock doesn't return file handle**: The real `io.write` returns the file handle for chaining (`io.write("a"):write("b")`). The mock returns nil, so chaining breaks.
-- **Mock calls tracker is a shared mutable reference**: The caller can mutate the `calls` table, which could corrupt test assertions if not used carefully.
-- **`with_temp_file` uses text mode**: The file is opened with `"w"` (text mode). On Windows, `\r\n` translation may alter binary content. On Unix this is not an issue.
-- **`table_eq` and NaN**: Since `NaN ~= NaN` per IEEE 754, tables containing NaN values are never considered equal — even to themselves.
-- **`table_eq` ignores metatables**: Comparison uses `pairs()` and raw value equality. Custom `__eq` metamethods are not invoked.
-- **`assert_errors` with non-string errors**: Pattern matching uses `tostring(err)`, so table error objects produce `"table: 0x..."` which won't match meaningful patterns.
+- **`capture_output` mock doesn't return file handle**: The real `io.write`
+  returns the file handle for chaining (`io.write("a"):write("b")`).
+  The mock returns nil, so chaining breaks.
+- **Mock calls tracker is a shared mutable reference**: The caller can
+  mutate the `calls` table, which could corrupt test assertions if not
+  used carefully.
+- **`with_temp_file` uses text mode**: The file is opened with `"w"`
+  (text mode). On Windows, `\r\n` translation may alter binary content.
+  On Unix this is not an issue.
+- **`table_eq` and NaN**: Since `NaN ~= NaN` per IEEE 754, tables
+  containing NaN values are never considered equal — even to themselves.
+- **`table_eq` ignores metatables**: Comparison uses `pairs()` and raw
+  value equality. Custom `__eq` metamethods are not invoked.
+- **`assert_errors` with non-string errors**: Pattern matching uses
+  `tostring(err)`, so table error objects produce `"table: 0x..."` which
+  won't match meaningful patterns.

@@ -112,7 +112,7 @@ Checker.__index = Checker
 
 --- Create a new Checker instance.
 --- @return table checker
-function Checker.new()
+function Checker:new()
     local self = setmetatable({}, Checker)
     self._errors = {}
     return self
@@ -279,7 +279,7 @@ local ok, err = validate.check_one_of("admin", {"user", "guest"}, "role")
 The `Checker` object uses colon syntax (CB-607: stateful object) and supports method chaining:
 
 ```lua
-local c = validate.Checker.new()
+local c = validate.Checker:new()
 c:check_type(name, "string", "name")
  :check_range(age, 0, 150, "age")
  :check_one_of(role, {"admin", "user"}, "role")
@@ -316,5 +316,7 @@ Fields present in `tbl` but not in the schema are copied through to the result.
 
 - **`false` as default**: `spec.default ~= nil` means `false` works as a default value, but the check is `~= nil` not truthiness-based.
 - **Required + default**: If both `required = true` and `default` are set, the default takes precedence — the required check never fires for absent fields.
-- **Schema error order is nondeterministic**: Multiple errors are collected via `pairs()` iteration over the schema, so their order depends on Lua's hash table implementation.
+- **Schema error order is nondeterministic**: Multiple errors are
+  collected via `pairs()` iteration over the schema, so their order
+  depends on Lua's hash table implementation.
 - **Floating-point boundaries**: `check_range` uses `<` and `>` comparisons, so floating-point edge cases at boundaries depend on IEEE 754 representation.

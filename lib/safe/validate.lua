@@ -101,10 +101,10 @@ Checker.__index = Checker
 
 --- Create a new Checker instance.
 --- @return table checker
-function Checker.new()
-    local self = setmetatable({}, Checker)
-    self._errors = {}
-    return self
+function Checker:new()
+    local instance = setmetatable({}, Checker)
+    instance._errors = {}
+    return instance
 end
 
 --- Accumulate a type check.

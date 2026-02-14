@@ -1,6 +1,9 @@
 # Falsification Findings
 
-The falsification suite (`spec/falsify_spec.lua`) contains 56 adversarial tests that probe specification weaknesses, boundary conditions, and semantic edge cases. These tests were written after the initial implementation to find bugs and document known limitations.
+The falsification suite (`spec/falsify_spec.lua`) contains 56 adversarial
+tests that probe specification weaknesses, boundary conditions, and
+semantic edge cases. These tests were written after the initial
+implementation to find bugs and document known limitations.
 
 Five bugs were found and fixed. The remaining findings are documented behaviors.
 
@@ -30,7 +33,10 @@ This is inherent to the proxy pattern — `__newindex` only fires on direct assi
 
 ### No `pairs()` Iteration in Lua 5.1
 
-The frozen proxy is an empty table with `__index` pointing to the original. In Lua 5.1, `pairs()` iterates the proxy's own keys (none), not the underlying table. Lua 5.2+ supports `__pairs` metamethod, but 5.1 does not.
+The frozen proxy is an empty table with `__index` pointing to the
+original. In Lua 5.1, `pairs()` iterates the proxy's own keys (none),
+not the underlying table. Lua 5.2+ supports `__pairs` metamethod,
+but 5.1 does not.
 
 ```lua
 local frozen = guard.freeze({ a = 1, b = 2, c = 3 })
@@ -72,7 +78,10 @@ All `require("safe.log")` calls return the same table. Level and context changes
 
 ### NaN Rejection
 
-**Fixed.** `check_range` now explicitly checks `value ~= value` (the IEEE 754 NaN identity test) before the range comparison. Without this, NaN silently passed all range checks because `NaN < min` and `NaN > max` are both false.
+**Fixed.** `check_range` now explicitly checks `value ~= value` (the
+IEEE 754 NaN identity test) before the range comparison. Without this,
+NaN silently passed all range checks because `NaN < min` and
+`NaN > max` are both false.
 
 ### Infinity Handling
 
@@ -98,7 +107,9 @@ Multiple schema validation errors are collected via `pairs()` iteration, so thei
 
 ### Whitespace and Quote Injection
 
-**Fixed.** `validate_program` now rejects newlines, tabs, carriage returns, spaces, and quotes in program names. The metacharacter character class includes `%s` (all whitespace), `"`, and `'`.
+**Fixed.** `validate_program` now rejects newlines, tabs, carriage
+returns, spaces, and quotes in program names. The metacharacter
+character class includes `%s` (all whitespace), `"`, and `'`.
 
 ### Null Byte Passthrough
 
@@ -110,7 +121,9 @@ The numeric `for` loop only checks indices `1..#args`. Non-sequential keys like 
 
 ### Escaping Is the Safety Layer
 
-`build_command` validates the program name but **does not validate argument content**. Arguments can contain arbitrary data including `; rm -rf /` — safety comes from single-quote escaping, not validation.
+`build_command` validates the program name but **does not validate
+argument content**. Arguments can contain arbitrary data including
+`; rm -rf /` — safety comes from single-quote escaping, not validation.
 
 ### `_normalize_exit` Edge Cases
 
