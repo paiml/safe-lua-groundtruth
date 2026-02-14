@@ -3,21 +3,22 @@ BUSTED ?= $(HOME)/.luarocks/bin/busted
 MDBOOK ?= $(HOME)/.cargo/bin/mdbook
 COVERAGE_MIN ?= 95
 
-.PHONY: test lint fmt fmt-check coverage check bench reproduce clean book book-serve
+.PHONY: test lint fmt fmt-check coverage check bench examples reproduce clean book book-serve
 
 test:
 	$(BUSTED) spec/
 
 lint:
-	luacheck lib/ spec/ tools/
+	luacheck lib/ spec/ tools/ examples/
 	selene lib/
 	cd spec && selene .
+	cd examples && selene .
 
 fmt:
-	stylua lib/ spec/ tools/ benchmarks/
+	stylua lib/ spec/ tools/ benchmarks/ examples/
 
 fmt-check:
-	stylua --check lib/ spec/ tools/ benchmarks/
+	stylua --check lib/ spec/ tools/ benchmarks/ examples/
 
 coverage:
 	$(BUSTED) --coverage spec/
@@ -28,6 +29,12 @@ check: lint fmt-check test
 
 bench:
 	$(LUA) benchmarks/perf_bench.lua
+
+examples:
+	$(LUA) examples/cli_tool.lua --help
+	$(LUA) examples/cli_tool.lua search "require" lib/safe/
+	$(LUA) examples/profiling.lua 100
+	$(LUA) examples/logging.lua
 
 reproduce: clean check coverage
 
