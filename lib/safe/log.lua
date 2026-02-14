@@ -110,29 +110,26 @@ end
 --- @return table logger with debug/info/warn/error methods
 function M.with_context(ctx)
     local child = {}
-    function child.debug(fmt, ...)
+    local function with_ctx(level, fmt, ...)
         local prev = context
         context = ctx
-        emit(M.DEBUG, fmt, ...)
+        local ok, err = pcall(emit, level, fmt, ...)
         context = prev
+        if not ok then
+            error(err, 3)
+        end
+    end
+    function child.debug(fmt, ...)
+        with_ctx(M.DEBUG, fmt, ...)
     end
     function child.info(fmt, ...)
-        local prev = context
-        context = ctx
-        emit(M.INFO, fmt, ...)
-        context = prev
+        with_ctx(M.INFO, fmt, ...)
     end
     function child.warn(fmt, ...)
-        local prev = context
-        context = ctx
-        emit(M.WARN, fmt, ...)
-        context = prev
+        with_ctx(M.WARN, fmt, ...)
     end
     function child.error(fmt, ...)
-        local prev = context
-        context = ctx
-        emit(M.ERROR, fmt, ...)
-        context = prev
+        with_ctx(M.ERROR, fmt, ...)
     end
     return child
 end

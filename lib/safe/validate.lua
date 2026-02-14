@@ -45,6 +45,10 @@ function M.check_range(value, min, max, name)
     if type(value) ~= "number" then
         return false, string_format("expected %s to be number, got %s", tostring(name), type(value))
     end
+    -- NaN fails all comparisons, so check explicitly: NaN ~= NaN
+    if value ~= value then
+        return false, string_format("%s is NaN", tostring(name))
+    end
     if value < min or value > max then
         return false,
             string_format(

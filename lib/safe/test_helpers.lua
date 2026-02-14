@@ -102,19 +102,31 @@ function M.with_temp_file(content, fn)
     end
 end
 
---- Deep table equality comparison.
+--- Deep table equality comparison with cycle detection.
 --- @param a any
 --- @param b any
+--- @param seen table|nil (internal) visited pairs for cycle detection
 --- @return boolean
-function M.table_eq(a, b)
+function M.table_eq(a, b, seen)
     if type(a) ~= type(b) then
         return false
     end
     if type(a) ~= "table" then
         return a == b
     end
+    if a == b then
+        return true
+    end
+    seen = seen or {}
+    if seen[a] and seen[a][b] then
+        return true
+    end
+    if not seen[a] then
+        seen[a] = {}
+    end
+    seen[a][b] = true
     for k, v in pairs(a) do
-        if not M.table_eq(v, b[k]) then
+        if not M.table_eq(v, b[k], seen) then
             return false
         end
     end

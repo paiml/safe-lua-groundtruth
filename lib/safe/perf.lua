@@ -64,9 +64,9 @@ end
 --- @param n number number of elements to fill
 --- @return table the same table, filled with 1..n
 function M.reuse_table(tbl, n)
-    -- Clear existing entries
-    for i = #tbl, 1, -1 do
-        tbl[i] = nil
+    -- Clear all entries (numeric and hash keys)
+    for k in pairs(tbl) do
+        tbl[k] = nil
     end
     -- Refill
     for i = 1, n do

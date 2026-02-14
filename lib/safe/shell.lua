@@ -60,7 +60,7 @@ function M.validate_program(name)
     if name == "" then
         return false, "program name must not be empty"
     end
-    if string_find(name, "[;&|`$%(%){}%[%]<>!#~]") then
+    if string_find(name, "[;&|`$%(%){}%[%]<>!#~\"'%s]") then
         return false, string_format("program name contains shell metacharacters: %s", name)
     end
     return true, nil
