@@ -54,6 +54,16 @@ examples:
 	$(LUA) examples/string_building.lua
 	$(LUA) examples/type_annotations.lua
 	$(LUA) examples/require_safety.lua
+	$(LUA) examples/operator_overloading.lua
+	$(LUA) examples/table_operations.lua
+	$(LUA) examples/observer_pattern.lua
+	$(LUA) examples/proxy_tables.lua
+	$(LUA) examples/closure_patterns.lua
+	$(LUA) examples/data_structures.lua
+	$(LUA) examples/serialization.lua
+	$(LUA) examples/debug_introspection.lua
+	$(LUA) examples/vararg_patterns.lua
+	$(LUA) examples/module_patterns.lua
 
 reproduce: clean check coverage
 
