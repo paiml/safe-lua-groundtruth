@@ -39,3 +39,9 @@ luac.out
 *.x86_64
 *.hex
 
+# Coverage artifacts
+luacov.stats.out
+luacov.report.out
+
+# PMAT
+.pmat/

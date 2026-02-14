@@ -1,0 +1,50 @@
+---
+base: lua51
+name: busted
+
+globals:
+  assert:
+    any: true
+  describe:
+    args:
+      - type: string
+      - type: function
+  context:
+    args:
+      - type: string
+      - type: function
+  it:
+    args:
+      - type: string
+      - type: function
+  pending:
+    args:
+      - type: string
+  setup:
+    args:
+      - type: function
+  teardown:
+    args:
+      - type: function
+  before_each:
+    args:
+      - type: function
+  after_each:
+    args:
+      - type: function
+  insulate:
+    args:
+      - type: string
+      - type: function
+  expose:
+    args:
+      - type: string
+      - type: function
+  spy:
+    any: true
+  stub:
+    any: true
+  mock:
+    any: true
+  match:
+    any: true

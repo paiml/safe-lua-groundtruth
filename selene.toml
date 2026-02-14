@@ -1,0 +1,9 @@
+std = "lua51"
+
+[rules]
+unused_variable = "deny"
+undefined_variable = "deny"
+shadowing = "deny"
+incorrect_standard_library_use = "deny"
+empty_if = "deny"
+parenthese_conditions = "deny"

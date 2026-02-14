@@ -1,0 +1,6 @@
+return {
+    _all = {
+        lpath = "lib/?.lua;lib/?/init.lua",
+        ROOT = { "spec/" },
+    },
+}

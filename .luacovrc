@@ -1,0 +1,23 @@
+-- luacov configuration for safe-lua-groundtruth
+return {
+    statsfile = "luacov.stats.out",
+    reportfile = "luacov.report.out",
+
+    include = {
+        "safe/guard$",
+        "safe/log$",
+        "safe/validate$",
+        "safe/shell$",
+        "safe/perf$",
+        "safe/test_helpers$",
+    },
+
+    exclude = {
+        "spec/",
+        "benchmarks/",
+        "tools/",
+    },
+
+    -- Minimum coverage threshold (enforced by Makefile)
+    runreport = true,
+}

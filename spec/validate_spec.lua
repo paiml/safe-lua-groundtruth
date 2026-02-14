@@ -1,0 +1,293 @@
+local validate = require("safe.validate")
+
+describe("safe.validate", function()
+    describe("check_type", function()
+        it("passes for correct type", function()
+            local ok, err = validate.check_type("hello", "string", "arg")
+            assert.is_true(ok)
+            assert.is_nil(err)
+        end)
+
+        it("fails for wrong type", function()
+            local ok, err = validate.check_type(42, "string", "arg")
+            assert.is_false(ok)
+            assert.truthy(err:find("expected arg to be string"))
+        end)
+
+        it("works with table type", function()
+            local ok, err = validate.check_type({}, "table", "data")
+            assert.is_true(ok)
+            assert.is_nil(err)
+        end)
+
+        it("works with nil type", function()
+            local ok, err = validate.check_type(nil, "nil", "opt")
+            assert.is_true(ok)
+            assert.is_nil(err)
+        end)
+    end)
+
+    describe("check_not_nil", function()
+        it("passes for non-nil", function()
+            local ok, err = validate.check_not_nil(42, "val")
+            assert.is_true(ok)
+            assert.is_nil(err)
+        end)
+
+        it("passes for false", function()
+            local ok, err = validate.check_not_nil(false, "flag")
+            assert.is_true(ok)
+            assert.is_nil(err)
+        end)
+
+        it("fails for nil", function()
+            local ok, err = validate.check_not_nil(nil, "required")
+            assert.is_false(ok)
+            assert.truthy(err:find("expected required to be non%-nil"))
+        end)
+    end)
+
+    describe("check_range", function()
+        it("passes for value in range", function()
+            local ok, err = validate.check_range(5, 1, 10, "x")
+            assert.is_true(ok)
+            assert.is_nil(err)
+        end)
+
+        it("passes for min boundary", function()
+            local ok, err = validate.check_range(1, 1, 10, "x")
+            assert.is_true(ok)
+            assert.is_nil(err)
+        end)
+
+        it("passes for max boundary", function()
+            local ok, err = validate.check_range(10, 1, 10, "x")
+            assert.is_true(ok)
+            assert.is_nil(err)
+        end)
+
+        it("fails for below range", function()
+            local ok, err = validate.check_range(0, 1, 10, "x")
+            assert.is_false(ok)
+            assert.truthy(err:find("must be between"))
+        end)
+
+        it("fails for above range", function()
+            local ok, err = validate.check_range(11, 1, 10, "x")
+            assert.is_false(ok)
+            assert.truthy(err:find("must be between"))
+        end)
+
+        it("fails for non-number", function()
+            local ok, err = validate.check_range("5", 1, 10, "x")
+            assert.is_false(ok)
+            assert.truthy(err:find("expected x to be number"))
+        end)
+    end)
+
+    describe("check_string_not_empty", function()
+        it("passes for non-empty string", function()
+            local ok, err = validate.check_string_not_empty("hello", "name")
+            assert.is_true(ok)
+            assert.is_nil(err)
+        end)
+
+        it("fails for empty string", function()
+            local ok, err = validate.check_string_not_empty("", "name")
+            assert.is_false(ok)
+            assert.truthy(err:find("must not be empty"))
+        end)
+
+        it("fails for non-string", function()
+            local ok, err = validate.check_string_not_empty(42, "name")
+            assert.is_false(ok)
+            assert.truthy(err:find("expected name to be string"))
+        end)
+    end)
+
+    describe("check_one_of", function()
+        it("passes for allowed value", function()
+            local ok, err = validate.check_one_of("red", { "red", "green", "blue" }, "color")
+            assert.is_true(ok)
+            assert.is_nil(err)
+        end)
+
+        it("fails for disallowed value", function()
+            local ok, err = validate.check_one_of("yellow", { "red", "green", "blue" }, "color")
+            assert.is_false(ok)
+            assert.truthy(err:find("must be one of"))
+            assert.truthy(err:find("yellow"))
+        end)
+
+        it("works with numeric values", function()
+            local ok, err = validate.check_one_of(2, { 1, 2, 3 }, "num")
+            assert.is_true(ok)
+            assert.is_nil(err)
+        end)
+
+        it("fails with empty allowed list", function()
+            local ok, err = validate.check_one_of("x", {}, "val")
+            assert.is_false(ok)
+            assert.truthy(err:find("must be one of"))
+        end)
+    end)
+
+    describe("Checker", function()
+        it("starts with no errors", function()
+            local c = validate.Checker.new()
+            assert.is_true(c:ok())
+            assert.are.same({}, c:errors())
+        end)
+
+        it("accumulates type errors", function()
+            local c = validate.Checker.new()
+            c:check_type("hello", "string", "a")
+            c:check_type(42, "string", "b")
+            assert.is_false(c:ok())
+            local errs = c:errors()
+            assert.are.equal(1, #errs)
+            assert.truthy(errs[1]:find("expected b to be string"))
+        end)
+
+        it("accumulates nil errors", function()
+            local c = validate.Checker.new()
+            c:check_not_nil(nil, "x")
+            c:check_not_nil(42, "y")
+            assert.is_false(c:ok())
+            assert.are.equal(1, #c:errors())
+        end)
+
+        it("accumulates range errors", function()
+            local c = validate.Checker.new()
+            c:check_range(5, 1, 10, "a")
+            c:check_range(20, 1, 10, "b")
+            assert.is_false(c:ok())
+            assert.are.equal(1, #c:errors())
+        end)
+
+        it("accumulates string errors", function()
+            local c = validate.Checker.new()
+            c:check_string_not_empty("ok", "a")
+            c:check_string_not_empty("", "b")
+            assert.is_false(c:ok())
+            assert.are.equal(1, #c:errors())
+        end)
+
+        it("accumulates one_of errors", function()
+            local c = validate.Checker.new()
+            c:check_one_of("x", { "a", "b" }, "val")
+            assert.is_false(c:ok())
+            assert.are.equal(1, #c:errors())
+        end)
+
+        it("chains method calls", function()
+            local c = validate.Checker.new()
+            local result = c:check_type("hi", "string", "a"):check_not_nil("x", "b")
+            assert.are.equal(c, result)
+            assert.is_true(c:ok())
+        end)
+
+        it("accumulates multiple errors", function()
+            local c = validate.Checker.new()
+            c:check_type(42, "string", "a")
+            c:check_not_nil(nil, "b")
+            c:check_range("x", 1, 10, "c")
+            assert.are.equal(3, #c:errors())
+        end)
+
+        it("assert passes when no errors", function()
+            local c = validate.Checker.new()
+            c:check_type("hi", "string", "a")
+            assert.has_no.errors(function()
+                c:assert()
+            end)
+        end)
+
+        it("assert throws when errors exist", function()
+            local c = validate.Checker.new()
+            c:check_type(42, "string", "a")
+            c:check_not_nil(nil, "b")
+            assert.has.errors(function()
+                c:assert()
+            end)
+        end)
+
+        it("errors returns a copy", function()
+            local c = validate.Checker.new()
+            c:check_type(42, "string", "a")
+            local e1 = c:errors()
+            local e2 = c:errors()
+            assert.are_not.equal(e1, e2)
+            assert.are.same(e1, e2)
+        end)
+    end)
+
+    describe("schema", function()
+        it("validates a simple schema", function()
+            local ok, result = validate.schema({ name = "alice", age = 30 }, {
+                name = { type = "string", required = true },
+                age = { type = "number", required = true },
+            })
+            assert.is_true(ok)
+            assert.are.equal("alice", result.name)
+            assert.are.equal(30, result.age)
+        end)
+
+        it("applies defaults", function()
+            local ok, result = validate.schema({}, {
+                name = { type = "string", default = "unknown" },
+            })
+            assert.is_true(ok)
+            assert.are.equal("unknown", result.name)
+        end)
+
+        it("fails for missing required field", function()
+            local ok, err = validate.schema({}, {
+                name = { type = "string", required = true },
+            })
+            assert.is_false(ok)
+            assert.truthy(err:find("missing required field"))
+        end)
+
+        it("fails for wrong type", function()
+            local ok, err = validate.schema({ name = 42 }, {
+                name = { type = "string", required = true },
+            })
+            assert.is_false(ok)
+            assert.truthy(err:find("expected string, got number"))
+        end)
+
+        it("passes extra fields through", function()
+            local ok, result = validate.schema({ name = "alice", extra = true }, {
+                name = { type = "string", required = true },
+            })
+            assert.is_true(ok)
+            assert.is_true(result.extra)
+        end)
+
+        it("fails for non-table input", function()
+            local ok, err = validate.schema("not a table", {
+                name = { type = "string" },
+            })
+            assert.is_false(ok)
+            assert.truthy(err:find("expected table"))
+        end)
+
+        it("accumulates multiple schema errors", function()
+            local ok, err = validate.schema({ name = 42 }, {
+                name = { type = "string", required = true },
+                age = { type = "number", required = true },
+            })
+            assert.is_false(ok)
+            assert.is.truthy(err)
+        end)
+
+        it("optional field with no value and no default is absent", function()
+            local ok, result = validate.schema({}, {
+                name = { type = "string" },
+            })
+            assert.is_true(ok)
+            assert.is_nil(result.name)
+        end)
+    end)
+end)
