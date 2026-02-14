@@ -154,6 +154,22 @@ local function make_consumer(buffer, signal, results)
     end)
 end
 
+--- Resume a coroutine and log the result.
+--- @param co thread coroutine to resume
+--- @param step number current step number
+--- @param label string label for log output (e.g. "producer")
+local function step_coroutine(co, step, label)
+    if coroutine_status(co) == "dead" then
+        return
+    end
+    local ok, msg = coroutine_resume(co)
+    if ok and msg then
+        io_write(string_format("  step %d %s: %s\n", step, label, msg))
+    elseif not ok then
+        io_write(string_format("  step %d %s error: %s\n", step, label, tostring(msg)))
+    end
+end
+
 local function demo_producer_consumer()
     banner("Pattern 2: Producer-Consumer Pipeline")
 
@@ -166,20 +182,18 @@ local function demo_producer_consumer()
     local consumer = make_consumer(buffer, signal, results)
 
     local step = 0
+    local max_steps = #items * 4 -- generous safety bound
     while coroutine_status(producer) ~= "dead" or coroutine_status(consumer) ~= "dead" do
         step = step + 1
-        if coroutine_status(producer) ~= "dead" then
-            local ok, msg = coroutine_resume(producer)
-            if ok and msg then
-                io_write(string_format("  step %d producer: %s\n", step, msg))
-            end
+        if step > max_steps then
+            io_write("  [safety] max steps reached, breaking\n")
+            break
         end
-        if coroutine_status(consumer) ~= "dead" then
-            local ok, msg = coroutine_resume(consumer)
-            if ok and msg then
-                io_write(string_format("  step %d consumer: %s\n", step, msg))
-            end
+        step_coroutine(producer, step, "producer")
+        if coroutine_status(producer) == "dead" then
+            signal.done = true
         end
+        step_coroutine(consumer, step, "consumer")
     end
 
     io_write("\n  Final results:\n")

@@ -76,8 +76,9 @@ book:
 book-serve:
 	$(MDBOOK) serve book/ --open
 
-# PMAT quality gates — excludes entropy/satd/duplicates/provability
-# which are polluted by reference/ (pmat ignores .gitignore, see
-# https://github.com/paiml/paiml-mcp-agent-toolkit/issues/195)
+# PMAT quality gates — --checks bypasses [exclude] paths (pmat bug),
+# so we select only checks unaffected by reference/ directory.
+# Entropy skipped: 200% threshold bug (#194). SATD/duplicates/provability
+# pass via default "pmat check" (which respects [exclude]) but not --checks.
 pmat:
 	pmat check --checks complexity,dead-code,coverage,sections,security --fail-on-violation
