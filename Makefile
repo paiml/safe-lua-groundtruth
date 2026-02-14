@@ -46,6 +46,14 @@ examples:
 	$(LUA) examples/state_machine.lua
 	$(LUA) examples/testing_patterns.lua
 	$(LUA) examples/string_processing.lua
+	$(LUA) examples/oop_patterns.lua
+	$(LUA) examples/error_handling.lua
+	$(LUA) examples/weak_tables.lua
+	$(LUA) examples/coroutine_patterns.lua
+	$(LUA) examples/global_protection.lua
+	$(LUA) examples/string_building.lua
+	$(LUA) examples/type_annotations.lua
+	$(LUA) examples/require_safety.lua
 
 reproduce: clean check coverage
 
