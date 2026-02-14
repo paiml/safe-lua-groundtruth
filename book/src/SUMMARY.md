@@ -65,3 +65,5 @@
 - [Debug Introspection](examples/debug_introspection.md)
 - [Vararg Patterns](examples/vararg_patterns.md)
 - [Module Patterns](examples/module_patterns.md)
+- [MLT Pipeline](examples/mlt_pipeline.md)
+- [FFmpeg Pipeline](examples/ffmpeg_pipeline.md)

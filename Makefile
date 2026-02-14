@@ -64,6 +64,8 @@ examples:
 	$(LUA) examples/debug_introspection.lua
 	$(LUA) examples/vararg_patterns.lua
 	$(LUA) examples/module_patterns.lua
+	$(LUA) examples/mlt_pipeline.lua
+	$(LUA) examples/ffmpeg_pipeline.lua
 
 reproduce: clean check coverage
 
