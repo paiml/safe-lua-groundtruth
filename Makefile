@@ -1,8 +1,9 @@
 LUA ?= lua5.1
 BUSTED ?= $(HOME)/.luarocks/bin/busted
+MDBOOK ?= $(HOME)/.cargo/bin/mdbook
 COVERAGE_MIN ?= 95
 
-.PHONY: test lint fmt fmt-check coverage check bench reproduce clean
+.PHONY: test lint fmt fmt-check coverage check bench reproduce clean book book-serve
 
 test:
 	$(BUSTED) spec/
@@ -32,3 +33,9 @@ reproduce: clean check coverage
 
 clean:
 	rm -f luacov.stats.out luacov.report.out
+
+book:
+	$(MDBOOK) build book/
+
+book-serve:
+	$(MDBOOK) serve book/ --open

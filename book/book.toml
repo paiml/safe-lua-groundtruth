@@ -1,0 +1,14 @@
+[book]
+authors = ["Pragmatic AI Labs"]
+language = "en"
+src = "src"
+title = "safe-lua-groundtruth Reference"
+
+[build]
+build-dir = "output"
+
+[output.html]
+default-theme = "rust"
+preferred-dark-theme = "ayu"
+git-repository-url = "https://github.com/paiml/safe-lua-groundtruth"
+git-repository-icon = "fa-github"

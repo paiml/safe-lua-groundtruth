@@ -45,3 +45,6 @@ luacov.report.out
 
 # PMAT
 .pmat/
+
+# mdBook output
+book/output/

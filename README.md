@@ -2,6 +2,29 @@
 
 Gold-standard safe Lua 5.1 library demonstrating defensive programming patterns. Designed as a reference implementation verified by PMAT CB-600 compliance checks.
 
+## PMAT Project Score
+
+| Metric | Value |
+|--------|-------|
+| Modules | 6 |
+| Tests | 251 (195 unit + 56 adversarial) |
+| Coverage | 95%+ on all `lib/` modules |
+| CB-600 Compliance | 8/8 checks (CB-600 through CB-607) |
+| Lint Warnings | 0 (luacheck + selene) |
+| SATD | 0 (no TODO/FIXME/HACK/XXX) |
+| Bugs Found via Falsification | 5 fixed |
+
+## Documentation
+
+The full reference book is available at [https://paiml.github.io/safe-lua-groundtruth](https://paiml.github.io/safe-lua-groundtruth) (deployed via GitHub Pages on tag push).
+
+Build locally:
+
+```bash
+make book          # build to book/output/
+make book-serve    # serve locally with hot reload
+```
+
 ## Quick Start
 
 ```bash
