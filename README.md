@@ -1,3 +1,5 @@
+<p align="center"><img src="assets/hero.svg" alt="safe-lua-groundtruth" width="800"></p>
+
 # safe-lua-groundtruth
 
 Gold-standard safe Lua 5.1 library demonstrating defensive programming patterns. Designed as a reference implementation verified by PMAT CB-600 compliance checks.

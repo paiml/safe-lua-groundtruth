@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 200">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0d1117"/>
+      <stop offset="50%" stop-color="#161b22"/>
+      <stop offset="100%" stop-color="#0d1117"/>
+    </linearGradient>
+    <linearGradient id="moon-glow" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#3b82f6"/>
+      <stop offset="100%" stop-color="#1d4ed8"/>
+    </linearGradient>
+    <linearGradient id="badge-bg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#21262d"/>
+      <stop offset="100%" stop-color="#161b22"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="200" rx="12" fill="url(#bg)"/>
+  <rect width="800" height="200" rx="12" fill="none" stroke="#30363d" stroke-width="1"/>
+
+  <!-- Lua crescent moon -->
+  <g transform="translate(80, 68)" filter="url(#glow)">
+    <circle cx="32" cy="32" r="28" fill="url(#moon-glow)" opacity="0.9"/>
+    <circle cx="44" cy="22" r="22" fill="url(#bg)"/>
+  </g>
+
+  <!-- Title -->
+  <text x="150" y="80" font-family="'Segoe UI',Helvetica,Arial,sans-serif" font-size="36" font-weight="700" fill="#e6edf3" letter-spacing="-0.5">safe-lua-groundtruth</text>
+
+  <!-- Subtitle -->
+  <text x="150" y="108" font-family="'Segoe UI',Helvetica,Arial,sans-serif" font-size="15" fill="#8b949e">Gold-standard safe Lua 5.1 reference library</text>
+
+  <!-- Stat badges row -->
+  <g transform="translate(150, 130)">
+    <!-- 6 Modules -->
+    <g>
+      <rect width="108" height="28" rx="6" fill="url(#badge-bg)" stroke="#30363d" stroke-width="1"/>
+      <rect width="50" height="28" rx="6" fill="#1f6feb" opacity="0.2"/>
+      <rect x="50" width="1" height="28" fill="#30363d"/>
+      <text x="25" y="18" font-family="'Segoe UI',Helvetica,Arial,sans-serif" font-size="12" font-weight="600" fill="#8b949e" text-anchor="middle">modules</text>
+      <text x="79" y="18" font-family="'Segoe UI',Helvetica,Arial,sans-serif" font-size="12" font-weight="700" fill="#58a6ff" text-anchor="middle">6</text>
+    </g>
+
+    <!-- 251 Tests -->
+    <g transform="translate(120, 0)">
+      <rect width="108" height="28" rx="6" fill="url(#badge-bg)" stroke="#30363d" stroke-width="1"/>
+      <rect width="50" height="28" rx="6" fill="#238636" opacity="0.2"/>
+      <rect x="50" width="1" height="28" fill="#30363d"/>
+      <text x="25" y="18" font-family="'Segoe UI',Helvetica,Arial,sans-serif" font-size="12" font-weight="600" fill="#8b949e" text-anchor="middle">tests</text>
+      <text x="79" y="18" font-family="'Segoe UI',Helvetica,Arial,sans-serif" font-size="12" font-weight="700" fill="#3fb950" text-anchor="middle">251</text>
+    </g>
+
+    <!-- 95%+ Coverage -->
+    <g transform="translate(240, 0)">
+      <rect width="128" height="28" rx="6" fill="url(#badge-bg)" stroke="#30363d" stroke-width="1"/>
+      <rect width="65" height="28" rx="6" fill="#9e6a03" opacity="0.2"/>
+      <rect x="65" width="1" height="28" fill="#30363d"/>
+      <text x="33" y="18" font-family="'Segoe UI',Helvetica,Arial,sans-serif" font-size="12" font-weight="600" fill="#8b949e" text-anchor="middle">coverage</text>
+      <text x="97" y="18" font-family="'Segoe UI',Helvetica,Arial,sans-serif" font-size="12" font-weight="700" fill="#d29922" text-anchor="middle">95%+</text>
+    </g>
+
+    <!-- CB-600 -->
+    <g transform="translate(380, 0)">
+      <rect width="118" height="28" rx="6" fill="url(#badge-bg)" stroke="#30363d" stroke-width="1"/>
+      <rect width="55" height="28" rx="6" fill="#8957e5" opacity="0.2"/>
+      <rect x="55" width="1" height="28" fill="#30363d"/>
+      <text x="28" y="18" font-family="'Segoe UI',Helvetica,Arial,sans-serif" font-size="12" font-weight="600" fill="#8b949e" text-anchor="middle">PMAT</text>
+      <text x="87" y="18" font-family="'Segoe UI',Helvetica,Arial,sans-serif" font-size="12" font-weight="700" fill="#bc8cff" text-anchor="middle">CB-600</text>
+    </g>
+  </g>
+</svg>
