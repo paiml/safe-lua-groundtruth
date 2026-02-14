@@ -88,6 +88,67 @@ local function escape_lua_string(s)
     return '"' .. escaped .. '"'
 end
 
+--- Serialize a number to Lua source, handling NaN and infinity.
+--- @param val number
+--- @return string
+local function ser_number(val)
+    if val ~= val then
+        return "0/0" -- NaN
+    elseif val == math_huge then
+        return "1/0"
+    elseif val == -math_huge then
+        return "-1/0"
+    end
+    return tostring(val)
+end
+
+--- Format a table key for Lua source.
+--- @param k any key value
+--- @param ser_fn function recursive serializer
+--- @param depth number current depth
+--- @return string formatted key
+local function format_key(k, ser_fn, depth)
+    if type(k) == "string" and k:match("^[%a_][%w_]*$") then
+        return k
+    end
+    return "[" .. ser_fn(k, depth + 1) .. "]"
+end
+
+--- Collect serialized parts from a table (array or hash).
+--- @param val table table to serialize
+--- @param pad string indentation padding
+--- @param ser_fn function recursive serializer
+--- @param depth number current depth
+--- @return table parts array of serialized entries
+local function collect_parts(val, pad, ser_fn, depth)
+    local parts = {}
+    if is_array(val) then
+        for i = 1, #val do
+            local entry = ser_fn(val[i], depth + 1)
+            table_insert(parts, pad .. entry)
+        end
+    else
+        for k, v in pairs(val) do
+            local entry = format_key(k, ser_fn, depth) .. " = " .. ser_fn(v, depth + 1)
+            table_insert(parts, pad .. entry)
+        end
+    end
+    return parts
+end
+
+--- Join parts into a table literal string.
+--- @param parts table array of serialized entries
+--- @param sep string separator between entries
+--- @param nl string newline string ("" or "\n")
+--- @param closing_pad string closing brace indentation
+--- @return string table literal
+local function join_table_parts(parts, sep, nl, closing_pad)
+    if #parts == 0 then
+        return "{}"
+    end
+    return "{" .. nl .. table_concat(parts, sep .. nl) .. nl .. closing_pad .. "}"
+end
+
 --- Serialize a Lua value to valid Lua source.
 --- @param value any value to serialize
 --- @param indent number|nil indentation level (0 = compact, >0 = pretty)
@@ -104,71 +165,21 @@ local function serialize(value, indent)
         elseif t == "boolean" then
             return tostring(val)
         elseif t == "number" then
-            if val ~= val then
-                return "0/0" -- NaN
-            elseif val == math_huge then
-                return "1/0"
-            elseif val == -math_huge then
-                return "-1/0"
-            else
-                return tostring(val)
-            end
+            return ser_number(val)
         elseif t == "string" then
             return escape_lua_string(val)
         elseif t == "table" then
             guard.contract(not seen[val], "cycle detected during serialization")
             seen[val] = true
 
-            local parts = {}
-            local pad = ""
-            local sep = ", "
-            local nl = ""
-            if indent > 0 then
-                pad = string_rep(" ", indent * (depth + 1))
-                sep = ","
-                nl = "\n"
-            end
-            local closing_pad = ""
-            if indent > 0 then
-                closing_pad = string_rep(" ", indent * depth)
-            end
+            local pad = indent > 0 and string_rep(" ", indent * (depth + 1)) or ""
+            local sep = indent > 0 and "," or ", "
+            local nl = indent > 0 and "\n" or ""
+            local closing_pad = indent > 0 and string_rep(" ", indent * depth) or ""
 
-            if is_array(val) then
-                -- Array format: { v1, v2, v3 }
-                for i = 1, #val do
-                    if indent > 0 then
-                        table_insert(parts, pad .. ser(val[i], depth + 1))
-                    else
-                        table_insert(parts, ser(val[i], depth + 1))
-                    end
-                end
-            else
-                -- Hash format: { key = value }
-                for k, v in pairs(val) do
-                    local key_str
-                    if type(k) == "string" and k:match("^[%a_][%w_]*$") then
-                        key_str = k
-                    else
-                        key_str = "[" .. ser(k, depth + 1) .. "]"
-                    end
-                    local entry = key_str .. " = " .. ser(v, depth + 1)
-                    if indent > 0 then
-                        table_insert(parts, pad .. entry)
-                    else
-                        table_insert(parts, entry)
-                    end
-                end
-            end
-
+            local parts = collect_parts(val, pad, ser, depth)
             seen[val] = nil -- allow table to appear in other branches
-
-            if #parts == 0 then
-                return "{}"
-            elseif indent > 0 then
-                return "{" .. nl .. table_concat(parts, sep .. nl) .. nl .. closing_pad .. "}"
-            else
-                return "{" .. table_concat(parts, sep) .. "}"
-            end
+            return join_table_parts(parts, sep, nl, closing_pad)
         else
             guard.contract(false, "unsupported type for serialization: " .. t)
         end

@@ -30,12 +30,43 @@ make book          # build to book/output/
 make book-serve    # serve locally with hot reload
 ```
 
-## Quick Start
+## Installation
+
+Requires Lua 5.1 and LuaRocks:
+
+```bash
+# Clone the repository
+git clone https://github.com/paiml/safe-lua-groundtruth.git
+cd safe-lua-groundtruth
+
+# Install dependencies
+luarocks install busted
+luarocks install luacheck
+luarocks install luacov
+
+# Verify installation
+make check
+```
+
+## Usage
+
+Add `lib/` to your package path and require modules individually:
+
+```lua
+package.path = "lib/?.lua;" .. package.path
+
+local guard    = require("safe.guard")
+local log      = require("safe.log")
+local validate = require("safe.validate")
+```
+
+Run quality gates:
 
 ```bash
 make check      # lint + format check + tests
 make coverage   # 95% minimum coverage on lib/
 make bench      # performance benchmarks
+make examples   # run all example programs
 ```
 
 ## Modules
@@ -174,6 +205,17 @@ end)
 - **Testing**: busted test framework
 - **Coverage**: 95% minimum on `lib/` via luacov
 - **SATD**: Zero TODO/FIXME/HACK/XXX in lib/ and spec/
+
+## Contributing
+
+1. Fork the repository
+2. Run `make check` to verify the baseline passes
+3. Make changes in `lib/safe/` with corresponding tests in `spec/`
+4. Ensure `make check` and `make coverage` pass (95% minimum)
+5. Submit a pull request
+
+All contributions must pass: zero luacheck warnings, zero selene warnings,
+stylua formatting, and 95% test coverage on `lib/`.
 
 ## License
 

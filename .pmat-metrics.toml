@@ -9,7 +9,13 @@ max_line_length = 120
 language = "lua"
 framework = "busted"
 
+[exclude]
+paths = ["reference/"]
+
 # busted.yml files are selene standard library definitions that require
 # literal YAML booleans — quoting breaks selene parsing.
+# Entropy: intentionally low diversity — this is a reference library
+# with uniform patterns across modules.
 [ignore]
 CB-950 = ["busted.yml", "spec/busted.yml"]
+entropy = ["project"]
